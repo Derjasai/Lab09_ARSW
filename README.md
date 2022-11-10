@@ -48,35 +48,116 @@ Cuando un conjunto de usuarios consulta un enésimo número (superior a 1000000)
 
 7. La función que calcula en enésimo número de la secuencia de Fibonacci está muy mal construido y consume bastante CPU para obtener la respuesta. Usando la consola del Browser documente los tiempos de respuesta para dicho endpoint usando los siguintes valores:
     * 1000000
+    
     1vcpu, 0.5GiB
+    
     ![image](https://user-images.githubusercontent.com/66084536/200964277-66a0159c-4995-44d0-8595-545afe9eb994.png)
+    
     2vcpu, 8GiB
+    
     ![image](https://user-images.githubusercontent.com/66084536/200973415-28726546-12a1-4dbb-87eb-d32ceb9cff9c.png)
+    
     * 1010000
+    
+    1vcpu, 0.5GiB
+    
     ![image](https://user-images.githubusercontent.com/66084536/200964397-684fdc56-b5cb-46fc-ae7a-370a8dfd9a3f.png)
+    
+    2vcpu, 8GiB
+    
+    ![image](https://user-images.githubusercontent.com/66084536/200974547-acb6f8b3-05ee-477c-8a42-60f82e953b0d.png)
+    
     * 1020000
+    1vcpu, 0.5GiB
+    
     ![image](https://user-images.githubusercontent.com/66084536/200964528-94743c0a-82b0-409c-9649-3ac3070349a2.png)
+    
+    2vcpu, 8GiB
+    
+    ![image](https://user-images.githubusercontent.com/66084536/200974769-b6c5ca8f-383f-4f30-9069-5bb3154a936e.png)
     * 1030000
+    
+    1vcpu, 0.5GiB
+    
     ![image](https://user-images.githubusercontent.com/66084536/200964944-da19a2ec-2bc7-4506-9386-a94af8332036.png)
+    
+    2vcpu, 8GiB
+    
+    ![image](https://user-images.githubusercontent.com/66084536/200974875-b06ed3ec-608b-4b21-9289-75d85ef8b08e.png)
+    
     * 1040000
+    
+    1vcpu, 0.5GiB
+    
     ![image](https://user-images.githubusercontent.com/66084536/200965376-79ce53bc-103e-4844-a7c8-d215d9a9fd19.png)
+    
+    2vcpu, 8GiB
+    
+    ![image](https://user-images.githubusercontent.com/66084536/200974974-30870877-f716-4ff9-a518-7526b1e37d95.png)
+    
     * 1050000
+    
+    1vcpu, 0.5GiB
+    
     ![image](https://user-images.githubusercontent.com/66084536/200965468-94ce3c6c-f0cf-4b18-b040-1a74ddaaa1ac.png)
+    
+    2vcpu, 8GiB
+    
+    ![image](https://user-images.githubusercontent.com/66084536/200975033-94abaa1b-a7cf-4553-9889-39b3ed55aff9.png)
+    
     * 1060000
+    
+    1vcpu, 0.5GiB
+    
     ![image](https://user-images.githubusercontent.com/66084536/200965521-a5c7229d-6275-4678-a370-305aba8d8d81.png)
+    
+    2vcpu, 8GiB
+    
+    ![image](https://user-images.githubusercontent.com/66084536/200975101-b6981b36-9e20-40d6-807f-18a09608175c.png)
+    
     * 1070000
+    
+    1vcpu, 0.5GiB
+    
     ![image](https://user-images.githubusercontent.com/66084536/200965995-7e5b23ec-378f-4c18-875e-6233ad1dbd17.png)
+    
+    2vcpu, 8GiB
+    
+    ![image](https://user-images.githubusercontent.com/66084536/200975166-bab5bfb0-03eb-4dd7-9d0e-c13ab2283690.png)
+    
     * 1080000
+    
+    1vcpu, 0.5GiB
+    
     ![image](https://user-images.githubusercontent.com/66084536/200966112-41df825a-19bb-474e-ad7e-b2d9e8cbd552.png)
+    
+    2vcpu, 8GiB
+    
+    ![image](https://user-images.githubusercontent.com/66084536/200975248-e5307fd6-dc29-4b3d-ad48-5b90a0ecf08b.png)
+    
     * 1090000    
+    
+    1vcpu, 0.5GiB
+    
     ![image](https://user-images.githubusercontent.com/66084536/200966225-30810ddc-741c-4e10-9400-f86d0a778c97.png)
+    
+    2vcpu, 8GiB
+    
+    ![image](https://user-images.githubusercontent.com/66084536/200975305-0e515cd1-7809-43ad-a04f-b8e6af3ded28.png)
 
 
 8. Dírijase ahora a Azure y verifique el consumo de CPU para la VM. (Los resultados pueden tardar 5 minutos en aparecer).
 
 ![Imágen 2](images/part1/part1-vm-cpu.png)
 
+1vcpu, 0.5GiB
+
 ![image](https://user-images.githubusercontent.com/66084536/200966325-48c397d2-5ec4-4c82-aafd-9ca09087c9bf.png)
+
+2vcpu, 8GiB
+
+![image](https://user-images.githubusercontent.com/66084536/200979052-483e0d5b-cdca-4e82-be25-69724212ebfc.png)
+
 
 
 9. Ahora usaremos Postman para simular una carga concurrente a nuestro sistema. Siga estos pasos.
@@ -89,8 +170,16 @@ Cuando un conjunto de usuarios consulta un enésimo número (superior a 1000000)
     newman run ARSW_LOAD-BALANCING_AZURE.postman_collection.json -e [ARSW_LOAD-BALANCING_AZURE].postman_environment.json -n 10 &
     newman run ARSW_LOAD-BALANCING_AZURE.postman_collection.json -e [ARSW_LOAD-BALANCING_AZURE].postman_environment.json -n 10
     ```
+    
+1vcpu, 0.5GiB
+
 ![image](https://user-images.githubusercontent.com/66084536/200972492-e7850ed8-a3f3-422f-a236-eb3b19c0b575.png)
 ![image](https://user-images.githubusercontent.com/66084536/200972597-afb05fdf-10d5-49a2-a74e-47dc3ca18423.png)
+
+2vcpu, 8GiB
+
+![image](https://user-images.githubusercontent.com/66084536/200979875-77900d17-9d60-457e-9d63-f758199a9bb3.png)
+![image](https://user-images.githubusercontent.com/66084536/200979924-c3fd1749-b8c2-448b-875e-ac21adae7348.png)
 
 
 10. La cantidad de CPU consumida es bastante grande y un conjunto considerable de peticiones concurrentes pueden hacer fallar nuestro servicio. Para solucionarlo usaremos una estrategia de Escalamiento Vertical. En Azure diríjase a la sección *size* y a continuación seleccione el tamaño `B2ms`.
