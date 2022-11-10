@@ -72,6 +72,7 @@ Cuando un conjunto de usuarios consulta un enésimo número (superior a 1000000)
     ![image](https://user-images.githubusercontent.com/66084536/200974547-acb6f8b3-05ee-477c-8a42-60f82e953b0d.png)
     
     * 1020000
+    
     1vcpu, 0.5GiB
     
     ![image](https://user-images.githubusercontent.com/66084536/200964528-94743c0a-82b0-409c-9649-3ac3070349a2.png)
@@ -79,6 +80,7 @@ Cuando un conjunto de usuarios consulta un enésimo número (superior a 1000000)
     2vcpu, 8GiB
     
     ![image](https://user-images.githubusercontent.com/66084536/200974769-b6c5ca8f-383f-4f30-9069-5bb3154a936e.png)
+    
     * 1030000
     
     1vcpu, 0.5GiB
@@ -194,21 +196,66 @@ Cuando un conjunto de usuarios consulta un enésimo número (superior a 1000000)
 12. Evalue el escenario de calidad asociado al requerimiento no funcional de escalabilidad y concluya si usando este modelo de escalabilidad logramos cumplirlo.
 13. Vuelva a dejar la VM en el tamaño inicial para evitar cobros adicionales.
 
-**Preguntas**
+**Solución a las Preguntas**
 
-1. ¿Cuántos y cuáles recursos crea Azure junto con la VM?
-2. ¿Brevemente describa para qué sirve cada recurso?
-3. ¿Al cerrar la conexión ssh con la VM, por qué se cae la aplicación que ejecutamos con el comando `npm FibonacciApp.js`? ¿Por qué debemos crear un *Inbound port rule* antes de acceder al servicio?
-4. Adjunte tabla de tiempos e interprete por qué la función tarda tando tiempo.
-5. Adjunte imágen del consumo de CPU de la VM e interprete por qué la función consume esa cantidad de CPU.
-6. Adjunte la imagen del resumen de la ejecución de Postman. Interprete:
-    * Tiempos de ejecución de cada petición.
-    * Si hubo fallos documentelos y explique.
-7. ¿Cuál es la diferencia entre los tamaños `B2ms` y `B1ls` (no solo busque especificaciones de infraestructura)?
-8. ¿Aumentar el tamaño de la VM es una buena solución en este escenario?, ¿Qué pasa con la FibonacciApp cuando cambiamos el tamaño de la VM?
-9. ¿Qué pasa con la infraestructura cuando cambia el tamaño de la VM? ¿Qué efectos negativos implica?
-10. ¿Hubo mejora en el consumo de CPU o en los tiempos de respuesta? Si/No ¿Por qué?
-11. Aumente la cantidad de ejecuciones paralelas del comando de postman a `4`. ¿El comportamiento del sistema es porcentualmente mejor?
+1.	¿Cuántos y cuáles recursos crea Azure junto con la VM?
+
+ ![image](https://user-images.githubusercontent.com/79550161/201004598-6d8b5ab8-2872-4f2a-8252-de55df0fa2e4.png)
+
+2.	¿Brevemente describa para qué sirve cada recurso?
+
+El primero es el grupo de recursos necesarios para el funcionamiento correcto, como la red virtual, la interfaz de red, la dirección IP pública, el grupo de seguridad de red, entre otros.
+El segundo hace referencia a la máquina virtual creada.
+
+3.	¿Al cerrar la conexión ssh con la VM, por qué se cae la aplicación que ejecutamos con el comando `npm FibonacciApp.js`? ¿Por qué debemos crear un *Inbound port rule* antes de acceder al servicio?
+
+La aplicación se cae ya que es necesario cerrar la conexión SSH para detener la ejecución.
+Debemos crear un inbound port rule antes de acceder al servicio ya que antes de esto el puerto se encuentra cerrado y no se permite realizar una consulta.
+
+4.	Adjunte tabla de tiempos e interprete por qué la función tarda tanto tiempo.
+ 
+![image](https://user-images.githubusercontent.com/79550161/201004634-504bb57e-6e02-4bea-838e-9f59ef85aa4a.png)
+
+La función tarda tanto tiempo ya que no se está implementando una forma de guardar valores anteriores, por lo cual, para cada una de las consultas debe calcular todos los valores desde cero, haciendo que el consumo de la CPU sea muy grande.
+
+5.	Adjunte imágen del consumo de CPU de la VM e interprete por qué la función consume esa cantidad de CPU.
+ 
+ ![image](https://user-images.githubusercontent.com/79550161/201004658-b7b9c3b0-5971-475d-9004-0d8a15dbda1a.png)
+ 
+La función consume esa gran cantidad de CPU porque no se está realizando una búsqueda recursiva.
+
+6.	Adjunte la imagen del resumen de la ejecución de Postman. Interprete:
+ 
+ ![image](https://user-images.githubusercontent.com/79550161/201004678-070360ba-d33b-4cdf-8ded-b25e8f0586f9.png)
+ 
+* Tiempos de ejecución de cada petición.
+
+Ya que el tiempo de ejecución total de todas las consultas es de 3m 6.4s, en promedio cada una de las ejecuciones tuvo una duración de 18.6s.
+
+* Si hubo fallos documéntelos y explique.
+
+No se obtuvo ningún fallo en las ejecuciones.
+
+7.	¿Cuál es la diferencia entre los tamaños `B2ms` y `B1ls` (no solo busque especificaciones de infraestructura)?
+
+La diferencia es que el tamaño B2ms puede ser cargado sobre diversos sistemas operativos, pero el tamaño B1ls solo puede ser cargado sobre el sistema operativo Linux.
+
+8.	¿Aumentar el tamaño de la VM es una buena solución en este escenario?, ¿Qué pasa con la FibonacciApp cuando cambiamos el tamaño de la VM?
+
+No es una buena solución de este escenario aumentar el tamaño, ya que se observa una disminución en el tiempo de ejecución, pero no es un gran cambio, ya que sigue tardando demasiado.
+
+9.	¿Qué pasa con la infraestructura cuando cambia el tamaño de la VM? ¿Qué efectos negativos implica?
+
+Al cambiar el tamaño se genera un mayor costo de pago y también se demorará la activación de la máquina, por lo que no estará disponible el servicio con este nuevo cambio.
+
+10.	¿Hubo mejora en el consumo de CPU o en los tiempos de respuesta? Si/No ¿Por qué?
+
+Si se encontró una mejora en el consumo de CPU, ya que el consumo promedio disminuyo considerablemente si lo comparamos con el consumo registrado inicialmente.
+
+11.	Aumente la cantidad de ejecuciones paralelas del comando de postman a `4`. ¿El comportamiento del sistema es porcentualmente mejor?
+
+Al aumentar la cantidad de ejecuciones paralelas podemos observar que el comportamiento del sistema es mucho mejor porcentualmente que el mostrado al inicio.
+
 
 ### Parte 2 - Escalabilidad horizontal
 
