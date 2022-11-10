@@ -290,17 +290,49 @@ newman run ARSW_LOAD-BALANCING_AZURE.postman_collection.json -e [ARSW_LOAD-BALAN
 newman run ARSW_LOAD-BALANCING_AZURE.postman_collection.json -e [ARSW_LOAD-BALANCING_AZURE].postman_environment.json -n 10
 ```
 
-**Preguntas**
+**Solución a las preguntas**
 
-* ¿Cuáles son los tipos de balanceadores de carga en Azure y en qué se diferencian?, ¿Qué es SKU, qué tipos hay y en qué se diferencian?, ¿Por qué el balanceador de carga necesita una IP pública?
-* ¿Cuál es el propósito del *Backend Pool*?
-* ¿Cuál es el propósito del *Health Probe*?
-* ¿Cuál es el propósito de la *Load Balancing Rule*? ¿Qué tipos de sesión persistente existen, por qué esto es importante y cómo puede afectar la escalabilidad del sistema?.
-* ¿Qué es una *Virtual Network*? ¿Qué es una *Subnet*? ¿Para qué sirven los *address space* y *address range*?
-* ¿Qué son las *Availability Zone* y por qué seleccionamos 3 diferentes zonas?. ¿Qué significa que una IP sea *zone-redundant*?
-* ¿Cuál es el propósito del *Network Security Group*?
-* Informe de newman 1 (Punto 2)
-* Presente el Diagrama de Despliegue de la solución.
+•	¿Cuáles son los tipos de balanceadores de carga en Azure y en qué se diferencian?, ¿Qué es SKU, qué tipos hay y en qué se diferencian?, ¿Por qué el balanceador de carga necesita una IP pública?
+
+Los tipos de balanceadores de carga en Azure son el equilibrador de carga público y el equilibrador de carga interno (o privado). El público proporciona conexiones de salida para máquinas virtuales dentro de la red virtual, estas se realizan mediante la traducción de sus direcciones IP privadas a direcciones IP públicas, sus instancias se usan para equilibrar la carda del tráfico de internet en las máquinas virtuales. El privado se usa cuando se necesitan direcciones IP privadas solo en el front-end, se usa para equilibrar la carga del tráfico dentro de una red virtual.
+SKU: Conocido como la unidad de mantenimiento de existencias (Stock Keeping Unit), es un código único que está compuesto habitualmente de letras y números, que identifica a un producto o servicio concreto dentro de Azure, este representa la oportunidad de poder adquirirlos.
+Tipos de SKU:
+-	Básico: Es un punto de entrada optimizado para los costos para que los desarrolladores aprendan sobre Azure Container Registry. Los registros tienen las mismas funciones de programación que los demás, sin embrago, el almacenamiento incluido y el rendimiento de las imágenes son más adecuadas para escenarios de uso inferior.
+-	Estándar: Los registros ofrecen las mismas funcionalidades que los básicos, pero con más almacenamiento y un mayor rendimiento de las imágenes. Estos deberían satisfacer las necesidades de la mayoría de los escenarios de producción.
+-	Premium: Los registros proporcionan la mayor cantidad de almacenamiento incluido y operaciones simultáneas, permite trabajar con escenarios de mayor volumen. Posee también la mayor capacidad de rendimiento de imágenes, agrega también nuevas características.
+El balanceador de carga necesita una IP pública para que pueda ser accesible desde la red.
+
+•	¿Cuál es el propósito del Backend Pool?
+
+El grupo de back-end es un componente crítico del equilibrador de carga. Define el grupo de recursos que atenderán el tráfico para una regla de equilibrio de carga determinada.
+
+•	¿Cuál es el propósito del Health Probe?
+
+El propósito del Health Probe es detectar el estado del punto de conexión, las respuestas del sondeo determinan qué instancias del grupo de back-end recibirán nuevas conexiones. También detectan el error de una aplicación, con esta se controla el flujo para administrar la carga o el tiempo de inactividad planificado. Cuando falla un sondeo, el balanceador de carga dejará de enviar nuevas conexiones a la respectiva instancia en mal estado.
+
+•	¿Cuál es el propósito de la Load Balancing Rule? ¿Qué tipos de sesión persistente existen, por qué esto es importante y cómo puede afectar la escalabilidad del sistema?.
+
+El propósito es definir como se distribuye el tráfico entrante a todas las instancias dentro del grupo de back-end, asigna una configuración de IP y un puerto front-end determinados a varias direcciones IP y puertos de back-end.
+La sesión persistente es importante ya que es un método utilizado para dirigir todas las solicitudes que se originan desde un cliente lógico independiente a un servidor web de backend independiente, los servidores backend se beneficia de esta. Permite mejorar el rendimiento de nuestra aplicación. Pueden afectar la escalabilidad ya que al estar conectados a una sesión y al nodo del backend, si este llega a un nivel de carga limite, el balanceador de carga no podrá redirigir la sesión a otro nodo del backend.
+
+•	¿Qué es una Virtual Network? ¿Qué es una Subnet? ¿Para qué sirven los address space y address range?
+
+Vitual Network es el bloque de creación fundamental de una res privada. Permite muchos tipos de recursos de Azure para comunicarse de forma segura entre usuarios, con internet y con las redes sociales. Es similar a una red tradicional que funcionaria en su propio centro de datos, pero aporta ventajas adicionales de la infraestructura de Azure, como la disponibilidad y el aislamiento.
+Subnet es un rango de direcciones IP en la red virtual, puede dividir una red virtual en varias subredes para la organización y la seguridad.
+Los address space sirven para separa una red virtual en uno o más intervalos de direcciones que no se superponen, se puede acceder a través de una única conexión, por un protocolo. El address range es la que define el rango de los intervalos de direcciones.
+
+•	¿Qué son las Availability Zone y por qué seleccionamos 3 diferentes zonas?. ¿Qué significa que una IP sea zone-redundant?
+
+Las Availability Zone son ubicaciones físicas separadas dentro de cada región de Azure que son tolerantes a los fallos locales, están diseñadas para ayudar a lograr la confiabilidad de las cargas de trabajo críticas para el negocio. Estas definen la recuperación ante desastres y los limites de residencia de datos. Se seleccionan tres zonas diferentes para garantizar la resiliencia, es decir, si una zona se ve afectada no se vean afectados todos los nodos y se garantice la disponibilidad.
+Que una IP sea zone-redundant significa que puede ser replicada automáticamente en otra zona.
+
+•	¿Cuál es el propósito del Network Security Group?
+
+El propósito del Network Security Group es filtrar el tráfico de red entre los recursos de Azure en una red virtual de la misma. Este contiene reglas de seguridad que permiten o deniegan el tráfico de red entrante o saliente desde varios tipos de recursos de Azure.
+
+•	Presente el Diagrama de Despliegue de la solución.
+
+ ![Lab09 DiagramaDesplieque](https://user-images.githubusercontent.com/79550161/200997700-4edeac90-aad0-4619-a678-71a03e945981.png)
 
 
 
